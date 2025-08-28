@@ -1,0 +1,85 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: guddy-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./services/exercises/internal/db/migrate/up:/docker-entrypoint-initdb.d
+    networks:
+      - guddy-network
+    restart: unless-stopped
+
+  import-data:
+      image: python:3.11-slim
+      command: ["sh", "-c", "pip3 install --no-cache-dir sqlalchemy psycopg2-binary --break-system-packages && python3 /scripts/import_script.py"]
+      environment:
+        DATABASE_URL: ${DATABASE_URL}
+      volumes:
+        - ./services/exercises/scripts:/scripts
+        - ./services/exercises/internal/db/data:/data
+      networks:
+        - guddy-network
+      depends_on:
+        - postgres
+      restart: "no"
+
+
+  # Exercises Service
+  exercises-service:
+    build: ./services/exercises
+    container_name: guddy-exercises-service
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - import-data
+    networks:
+      - guddy-network
+    restart: unless-stopped
+
+  # Gateway Service
+  gateway-service:
+    build: ./services/gateway
+    container_name: guddy-gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - exercises-service
+    networks:
+      - guddy-network
+    restart: unless-stopped
+
+  # Docs Service (placeholder - to be implemented)
+  # docs-service:
+  #   build: ./services/docs
+  #   container_name: guddy-docs-service
+  #   ports:
+  #     - "8082:8082"
+  #   networks:
+  #     - guddy-network
+  #   restart: unless-stopped
+
+  # Logger Service (placeholder - to be implemented)
+  # logger-service:
+  #   build: ./services/logger
+  #   container_name: guddy-logger-service
+  #   ports:
+  #     - "8083:8083"
+  #   networks:
+  #     - guddy-network
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  guddy-network:
+    driver: bridge

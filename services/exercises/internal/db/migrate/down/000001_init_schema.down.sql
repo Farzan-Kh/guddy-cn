@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS programs;
+DROP TABLE IF EXISTS exercise_muscle;
+DROP TABLE IF EXISTS exercise_names;
+DROP TABLE IF EXISTS muscles;
+DROP TABLE IF EXISTS exercises;
+DROP TABLE IF EXISTS visuals;
+DROP TYPE IF EXISTS equipment_t;
+DROP EXTENSION IF EXISTS "uuid-ossp";

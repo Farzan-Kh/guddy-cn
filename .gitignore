@@ -1,0 +1,15 @@
+.vscode
+
+# Environment variables
+.env
+
+# Other common ignores
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+
+# sqlc generated files
+services/exercises/internal/db/db.go
+services/exercises/internal/db/models.go
+services/exercises/internal/db/query.sql.go
