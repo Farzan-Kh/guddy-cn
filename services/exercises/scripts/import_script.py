@@ -26,7 +26,7 @@ DB_URL = os.getenv("DATABASE_URL")
 
 def main():
     # Load exercises from JSON
-    with open("/data/exercises.json", "r") as f:
+    with open("../internal/db/data/exercises.json", "r") as f:
         data = json.load(f)
         exercises = data["exercises"]
 
@@ -41,6 +41,7 @@ def main():
             print("Data Already exists, exiting.")
             return
         for idx, ex in enumerate(exercises):
+            print('Inserting row: ', idx)
             name = ex["name"]
             muscles = ex['primaryMuscles'] + ex['secondaryMuscles']
             equipment = 'Other'
