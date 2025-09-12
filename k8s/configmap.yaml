@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: guddy-config
+  namespace: guddy
+data:
+  POSTGRES_DB: guddydb
+  POSTGRES_USER: guddyuser
+  POSTGRES_PASSWORD: guddypass
+  DATABASE_URL: postgresql://guddyuser:guddypass@postgres:5432/guddydb?sslmode=disable

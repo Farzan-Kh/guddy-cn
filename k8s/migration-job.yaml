@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+  namespace: guddy
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate
+        image: migrate/migrate:v4.16.2
+        command:
+          - "migrate"
+          - "-path"
+          - "/migrations"
+          - "-database"
+          - "postgres://guddyuser:guddypass@postgres:5432/guddydb?sslmode=disable"
+          - "up"
+        volumeMounts:
+        - name: migrations
+          mountPath: /migrations
+      volumes:
+      - name: migrations
+        configMap:
+          name: migrations-configmap
+      restartPolicy: Never
