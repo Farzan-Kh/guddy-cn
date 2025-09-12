@@ -1,5 +1,9 @@
+
 # Build stage
 FROM golang:1.24-alpine AS builder
+
+# Install git (required for fetching some Go modules)
+RUN apk add --no-cache git
 
 WORKDIR /app
 
@@ -11,10 +15,6 @@ RUN go mod download
 
 # Copy source code
 COPY . .
-
-# Install sqlc and compile SQL code
-RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest \
-	&& /go/bin/sqlc generate
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o exercises .
