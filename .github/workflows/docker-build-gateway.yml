@@ -40,7 +40,7 @@ jobs:
             --method PATCH \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            "/user/packages/container/${IMAGE_NAME#ghcr.io/}/versions/latest" \
+            "/users/${{ github.actor }}/packages/container/${IMAGE_NAME#ghcr.io/}/versions/latest" \
             -f visibility=public
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
