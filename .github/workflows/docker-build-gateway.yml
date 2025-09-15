@@ -1,6 +1,7 @@
 name: Build and Push Gateway Docker Image
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Build Gateway"]
     types:
