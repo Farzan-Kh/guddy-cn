@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: exercises-service
-          image: ghcr.io/farzan-kh/guddy-cn/exercises:${GITHUB_SHA}
+          image: ghcr.io/farzan-kh/guddy-cn/exercises:92f2a187ae330a7a00ce1ec48bd2bf2b23f30dec
           envFrom:
             - configMapRef:
                 name: guddy-config
