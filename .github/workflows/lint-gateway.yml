@@ -8,6 +8,7 @@ on:
 
 jobs:
   lint:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Lint and Security Check
     runs-on: ubuntu-latest
 
