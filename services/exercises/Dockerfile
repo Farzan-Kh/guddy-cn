@@ -16,6 +16,12 @@ RUN go mod download
 # Copy source code
 COPY . .
 
+# Install sqlc
+RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
+# Run sqlc generate
+RUN /go/bin/sqlc generate
+
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o exercises .
 
