@@ -1,0 +1,30 @@
+name: Lint Exercises
+
+on:
+  workflow_run:
+    workflows: ["Build Exercises"]
+    types:
+      - completed
+
+jobs:
+  lint:
+    name: Lint and Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.6'
+
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: v1.55
+
+      - name: Run golangci-lint
+        working-directory: ./services/exxercises
+        run: golangci-lint --enable gosec run
