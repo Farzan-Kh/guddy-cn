@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: exercises-service
-          image: ghcr.io/farzan-kh/guddy-exercises-service:1.0
+          image: ghcr.io/farzan-kh/guddy-cn/exercises:latest
           envFrom:
             - configMapRef:
                 name: guddy-config

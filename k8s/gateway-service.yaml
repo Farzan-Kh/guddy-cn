@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: gateway-service
-          image: ghcr.io/farzan-kh/guddy-gateway-service:1.0
+          image: ghcr.io/farzan-kh/guddy-cn/gateway:latest
           ports:
             - containerPort: 8080
 ---
