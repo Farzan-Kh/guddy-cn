@@ -7,23 +7,8 @@ on:
       - completed
 
 jobs:
-  build:
+  build-and-push:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: |
-          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          docker build -t ghcr.io/$REPO_NAME/gateway:latest ./services/gateway
-
-  push:
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -40,7 +25,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: Push Docker image
+      - name: Build and push Docker image
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ghcr.io/$REPO_NAME/gateway:latest ./services/gateway
           docker push ghcr.io/$REPO_NAME/gateway:latest
