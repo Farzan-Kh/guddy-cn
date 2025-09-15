@@ -36,9 +36,6 @@ COPY --from=builder /app/exercises .
 COPY --from=builder /app/internal/db/migrate ./internal/db/migrate/
 COPY --from=builder /app/internal/db/data ./internal/db/data/
 
-# Copy the .env file into the Docker image
-COPY .env .env
-
 # Expose port 8081
 EXPOSE 8081
 
