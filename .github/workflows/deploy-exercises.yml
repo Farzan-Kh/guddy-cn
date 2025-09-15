@@ -43,4 +43,4 @@ jobs:
       - name: Apply Exercises service manifests
         run: |
           kubectl apply -f k8s/exercises-service.yaml -n guddy
-          kubectl rollout status deployment/exercises-service -n default
+          kubectl rollout status deployment/exercises-service -n guddy
