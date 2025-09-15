@@ -1,3 +1,11 @@
+[![Build Exercises](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/build-exercises.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/build-exercises.yml)
+[![Build Gateway](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/build-gateway.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/build-gateway.yml)
+[![Lint Exercises](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/lint-exercises.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/lint-exercises.yml)
+[![Lint Gateway](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/lint-gateway.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/lint-gateway.yml)
+[![Build and Push Exercises Docker Image](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/docker-build-exercises.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/docker-build-exercises.yml)
+[![Build and Push Gateway Docker Image](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/docker-build-gateway.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/docker-build-gateway.yml)
+[![Deploy Exercises Service](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/deploy-exercises.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/deploy-exercises.yml)
+[![Deploy Gateway Service](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/deploy-gateway.yml/badge.svg)](https://github.com/Farzan-Kh/guddy-cn/actions/workflows/deploy-gateway.yml)
 # Guddy 🏋️‍♂️
 
 A comprehensive fitness exercise and workout program management API built with Go. Guddy provides a robust backend service for managing exercise databases, creating custom workout programs, and accessing detailed exercise information with equipment specifications and visual guides.
