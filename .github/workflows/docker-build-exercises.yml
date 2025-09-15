@@ -29,5 +29,5 @@ jobs:
       - name: Build and push Docker image
         run: |
           REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          docker build -t ghcr.io/$REPO_NAME/exercises:latest ./services/exercises
-          docker push ghcr.io/$REPO_NAME/exercises:latest
+          docker build -t ghcr.io/$REPO_NAME/exercises:${GITHUB_SHA} ./services/exercises
+          docker push ghcr.io/$REPO_NAME/exercises:${GITHUB_SHA}
