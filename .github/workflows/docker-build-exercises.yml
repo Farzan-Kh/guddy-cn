@@ -31,16 +31,3 @@ jobs:
           REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           docker build -t ghcr.io/$REPO_NAME/exercises:latest ./services/exercises
           docker push ghcr.io/$REPO_NAME/exercises:latest
-
-      - name: Make Docker image public
-        run: |
-          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME="ghcr.io/$REPO_NAME/exercises"
-          gh api \
-            --method PATCH \
-            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "/user/packages/container/${IMAGE_NAME#ghcr.io/}/versions/latest" \
-            -f visibility=public
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
