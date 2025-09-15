@@ -18,6 +18,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gateway .
 # Final stage
 FROM alpine:latest
 
+LABEL org.opencontainers.image.source https://github.com/farzan-kh/guddy-cn
+
 RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
