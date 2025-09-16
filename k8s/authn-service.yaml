@@ -28,7 +28,7 @@ metadata:
   name: authn-service
   namespace: guddy
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: authn-service
   ports:
