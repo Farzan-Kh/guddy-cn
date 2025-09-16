@@ -11,12 +11,6 @@ import (
 	"go.uber.org/zap"
 )
 
-var logger *zap.Logger
-
-func init() {
-	logger, _ = zap.NewProduction()
-}
-
 // Service configuration
 type ServiceConfig struct {
 	Name string
@@ -32,10 +26,14 @@ var services = map[string]ServiceConfig{
 }
 
 func main() {
+	// initialize logger
+	InitLogger()
+	defer logger.Sync()
+
 	r := chi.NewRouter()
 
 	// Middleware
-	r.Use(middleware.Logger)
+	r.Use(RequestLogger())
 	r.Use(middleware.Recoverer)
 
 	// Route all /api/* requests
@@ -127,3 +125,5 @@ func proxyToService(w http.ResponseWriter, r *http.Request, target string) {
 	// Write response body
 	w.Write(body)
 }
+
+// logging helpers (InitLogger, RequestLogger and responseWriter) live in logger.go
