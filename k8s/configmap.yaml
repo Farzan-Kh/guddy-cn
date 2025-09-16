@@ -8,3 +8,5 @@ data:
   POSTGRES_USER: guddyuser
   POSTGRES_PASSWORD: guddypass
   DATABASE_URL: postgresql://guddyuser:guddypass@postgres:5432/guddydb?sslmode=disable
+
+  AUTHN_JWT_SECRET: mysecret

@@ -1,0 +1,46 @@
+name: Deploy Authn Service
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Push Authn Docker Image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Change Authn service's manifests image's version
+        run: |
+          sed -i "s|image: ghcr.io/farzan-kh/guddy-cn/authn:.*|image: ghcr.io/farzan-kh/guddy-cn/authn:${GITHUB_SHA}|" k8s/authn-service.yaml
+
+      - name: install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Commit updated manifests
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add k8s/authn-service.yaml
+          git diff-index --quiet HEAD || git commit -m "CI: update authn-service image to ${GITHUB_SHA}"
+          git push origin main
+
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+
+      - name: Apply Authn service manifests
+        run: |
+          kubectl apply -f k8s/authn-service.yaml -n guddy
+          kubectl rollout status deployment/authn-service -n guddy

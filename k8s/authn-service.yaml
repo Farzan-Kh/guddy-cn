@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authn-service
+  namespace: guddy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authn-service
+  template:
+    metadata:
+      labels:
+        app: authn-service
+    spec:
+      containers:
+        - name: authn-service
+          image: ghcr.io/farzan-kh/guddy-cn/authn:latest
+          ports:
+            - containerPort: 8084
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authn-service
+  namespace: guddy
+spec:
+  type: LoadBalancer
+  selector:
+    app: authn-service
+  ports:
+    - port: 8084
+      targetPort: 8084
