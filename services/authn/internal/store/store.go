@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/Farzan-Kh/guddy-cn/services/authn/internal/models"
@@ -38,9 +39,11 @@ func (s *Store) CreateUser(ctx context.Context, email, passwordHash string) (*mo
 	var id int64
 	err := s.db.QueryRow(ctx, "INSERT INTO users(email, password_hash, created_at) VALUES ($1, $2, $3) RETURNING id", email, passwordHash, now).Scan(&id)
 	if err != nil {
+		log.Println("CreateUser error:", err)
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" { // unique_violation
+				log.Println("Unique violation error:", err)
 				return nil, ErrUserExists
 			}
 		}
