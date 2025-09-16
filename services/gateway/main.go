@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"go.uber.org/zap"
 )
 
 // Service configuration and proxy logic moved to proxy.go
@@ -19,6 +20,12 @@ func main() {
 
 	// Middleware
 	r.Use(RequestLogger())
+	// Initialize and register rate limiter (10 reqs per minute per user)
+	if err := InitRateLimiter(); err != nil {
+		logger.Error("failed to initialize rate limiter", zap.Error(err))
+	} else {
+		r.Use(RateLimitMiddleware)
+	}
 	r.Use(middleware.Recoverer)
 
 	// Route all /api/* requests
