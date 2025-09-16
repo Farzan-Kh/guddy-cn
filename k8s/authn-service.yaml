@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: authn-service
-          image: ghcr.io/farzan-kh/guddy-cn/authn:e7ca9a8c4d31e9e25cbafb9325fd60fe6506d61c
+          image: ghcr.io/farzan-kh/guddy-cn/authn:06d467b88dd978960455717b15974936cbfab4b3
           envFrom:
             - configMapRef:
                 name: guddy-config
