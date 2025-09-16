@@ -1,0 +1,46 @@
+name: Deploy Infra
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'k8s/postgres*'
+      - 'k8s/redis*'
+      - 'k8s/configmap.yaml'
+      - 'k8s/migration*'
+      - 'k8s/namespace.yaml'
+      - '.github/workflows/deploy-infra.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'k8s/postgres*'
+      - 'k8s/redis*'
+      - 'k8s/configmap.yaml'
+      - 'k8s/migration*'
+      - 'k8s/namespace.yaml'
+      - '.github/workflows/deploy-infra.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+
+      - name: Apply Gateway service manifests
+        run: |
+          kubectl apply -f k8s/ -n guddy
