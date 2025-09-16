@@ -20,6 +20,8 @@ var services = map[string]ServiceConfig{
 	"programs":  {Name: "exercises", Host: "exercises-service", Port: "8081"}, // Programs are handled by exercises service
 	"docs":      {Name: "docs", Host: "docs", Port: "8082"},
 	"logger":    {Name: "logger", Host: "logger", Port: "8083"},
+	"authn":     {Name: "authn", Host: "authn-service", Port: "8084"}, // Authn service (not currently proxied)
+	"authz":     {Name: "authz", Host: "authz-service", Port: "8085"}, // Authz service (not currently proxied)
 }
 
 func createProxyHandler(serviceName string) http.HandlerFunc {
