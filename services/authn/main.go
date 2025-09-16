@@ -38,6 +38,11 @@ func main() {
 	}
 	defer pool.Close()
 	// Verify connection
+
+	if err := store.InitDB(ctx, pool); err != nil {
+		log.Fatalf("failed to init db: %v", err)
+	}
+
 	if err := pool.Ping(ctx); err != nil {
 		log.Fatalf("failed to ping db: %v", err)
 	}
