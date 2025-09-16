@@ -33,6 +33,7 @@ func main() {
 		// Specific routes first (higher priority)
 		r.HandleFunc("/docs/*", createProxyHandler("docs"))
 		r.HandleFunc("/logger/*", createProxyHandler("logger"))
+		r.HandleFunc("/authn/*", createProxyHandler("authn"))
 
 		// Catch-all for all other /api/* requests to exercises service
 		r.HandleFunc("/*", createProxyHandler("exercises"))
