@@ -1,7 +1,7 @@
 package main
 
 import (
-	"database/sql"
+	"context"
 	"log"
 	"net/http"
 	"os"
@@ -12,6 +12,7 @@ import (
 	"github.com/Farzan-Kh/guddy-cn/services/authn/internal/store"
 	"github.com/gorilla/mux"
 	_ "github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
@@ -29,17 +30,19 @@ func main() {
 		log.Fatal("AUTHN_JWT_SECRET env is required")
 	}
 
-	dbConn, err := sql.Open("pgx", dsn)
+	ctx := context.Background()
+
+	pool, err := pgxpool.New(ctx, dsn)
 	if err != nil {
-		log.Fatalf("open db: %v", err)
+		log.Fatalf("failed to create pool: %v", err)
 	}
-	defer dbConn.Close()
-
-	if err := store.InitDB(dbConn); err != nil {
-		log.Fatalf("init db: %v", err)
+	defer pool.Close()
+	// Verify connection
+	if err := pool.Ping(ctx); err != nil {
+		log.Fatalf("failed to ping db: %v", err)
 	}
 
-	storeRepo := store.New(dbConn)
+	storeRepo := store.New(pool)
 	jwtSvc := jwtjw.New([]byte(jwtSecret), time.Hour*24)
 	h := handler.New(storeRepo, jwtSvc)
 

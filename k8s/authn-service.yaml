@@ -15,7 +15,10 @@ spec:
     spec:
       containers:
         - name: authn-service
-          image: ghcr.io/farzan-kh/guddy-cn/authn:b50d1695d88c6b2fb499ab13a6efe80bbef3e044
+          image: ghcr.io/farzan-kh/guddy-cn/authn:315ae98365eb05c3fbeb27c3d2f5136b1c112642
+          envFrom:
+            - configMapRef:
+                name: guddy-config
           ports:
             - containerPort: 8084
 ---

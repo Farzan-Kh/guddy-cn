@@ -48,7 +48,7 @@ func (h *Handler) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	hash, _ := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	_, err := h.store.CreateUser(req.Email, string(hash))
+	_, err := h.store.CreateUser(r.Context(), req.Email, string(hash))
 	if err != nil {
 		http.Error(w, "user exists or store error", http.StatusBadRequest)
 		return
@@ -68,7 +68,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, err := h.store.GetByEmail(req.Email)
+	u, err := h.store.GetByEmail(r.Context(), req.Email)
 	if err != nil {
 		http.Error(w, "invalid credentials", http.StatusUnauthorized)
 		return
